@@ -5,18 +5,22 @@
  */
 package shoesauction.Frame;
 
+import shoesauction.Controller.MainController;
+import shoesauction.Model.MainModel;
+
 /**
  *
  * @author basazard
  */
 public class DashboardUser extends javax.swing.JFrame {
-
-    
+    MainModel model = new MainModel();
+    MainController controller = new MainController();
     /**
      * Creates new form DashboardUser
      */
     public DashboardUser() {
         initComponents();
+        
     }
     
 
@@ -31,12 +35,13 @@ public class DashboardUser extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lbl_username = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btn_product = new javax.swing.JButton();
         btn_deal = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         btn_logout = new javax.swing.JButton();
+        btn_transaction = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -44,13 +49,23 @@ public class DashboardUser extends javax.swing.JFrame {
 
         jLabel2.setText("We're so exited to see you again!");
 
-        jLabel3.setText("-");
+        lbl_username.setText("-");
 
         jLabel4.setText("Whats your looking for?");
 
         btn_product.setText("Product");
+        btn_product.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_productActionPerformed(evt);
+            }
+        });
 
         btn_deal.setText("Deal");
+        btn_deal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_dealActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("See you!");
 
@@ -58,6 +73,13 @@ public class DashboardUser extends javax.swing.JFrame {
         btn_logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_logoutActionPerformed(evt);
+            }
+        });
+
+        btn_transaction.setText("Transaction");
+        btn_transaction.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_transactionActionPerformed(evt);
             }
         });
 
@@ -71,7 +93,7 @@ public class DashboardUser extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3))
+                        .addComponent(lbl_username))
                     .addComponent(jLabel2)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
@@ -79,8 +101,10 @@ public class DashboardUser extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_product)
                         .addGap(18, 18, 18)
-                        .addComponent(btn_deal)))
-                .addContainerGap(197, Short.MAX_VALUE))
+                        .addComponent(btn_deal)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_transaction)))
+                .addContainerGap(121, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,16 +112,17 @@ public class DashboardUser extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel3))
+                    .addComponent(lbl_username))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addGap(36, 36, 36)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_product)
-                    .addComponent(btn_deal))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                    .addComponent(btn_deal)
+                    .addComponent(btn_transaction))
+                .addGap(56, 56, 56)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_logout)
@@ -113,6 +138,27 @@ public class DashboardUser extends javax.swing.JFrame {
         lf.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_logoutActionPerformed
+
+    private void btn_productActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_productActionPerformed
+        // TODO add your handling code here:
+        DashboardProduct dp = new DashboardProduct();
+        dp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_productActionPerformed
+
+    private void btn_dealActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_dealActionPerformed
+        // TODO add your handling code here:
+        DashboardDeal dd = new DashboardDeal();
+        dd.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_dealActionPerformed
+
+    private void btn_transactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_transactionActionPerformed
+        // TODO add your handling code here:
+        DashboardTransaction dt = new DashboardTransaction();
+        dt.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_transactionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,10 +199,11 @@ public class DashboardUser extends javax.swing.JFrame {
     private javax.swing.JButton btn_deal;
     private javax.swing.JButton btn_logout;
     private javax.swing.JButton btn_product;
+    private javax.swing.JButton btn_transaction;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel lbl_username;
     // End of variables declaration//GEN-END:variables
 }

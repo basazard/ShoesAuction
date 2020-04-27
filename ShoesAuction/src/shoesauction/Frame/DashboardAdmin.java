@@ -5,17 +5,41 @@
  */
 package shoesauction.Frame;
 
+import java.sql.ResultSet;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
+import shoesauction.Controller.MainController;
+import shoesauction.Helper.Helper;
+import shoesauction.Model.MainModel;
+
 /**
  *
  * @author basazard
  */
 public class DashboardAdmin extends javax.swing.JFrame {
 
+    MainModel model = new MainModel();
+    MainController controller = new MainController();
+    ResultSet rs;
+    
+    Helper helper = new Helper();
+    
     /**
      * Creates new form DashboardAdmin
      */
     public DashboardAdmin() {
         initComponents();
+        getAllData();
+    }
+    
+    public void getAllData(){
+        this.rs = controller.getProduct();
+        loadTable(this.rs);
+    }
+    
+    public void loadTable(ResultSet rs){
+        tb_product.setModel(DbUtils.resultSetToTableModel(rs));
     }
 
     /**
@@ -27,21 +51,263 @@ public class DashboardAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        tf_idproduct = new javax.swing.JTextField();
+        tf_namaproduct = new javax.swing.JTextField();
+        tf_stock = new javax.swing.JTextField();
+        tf_startbid = new javax.swing.JTextField();
+        dp_startdate = new org.jdesktop.swingx.JXDatePicker();
+        dp_enddate = new org.jdesktop.swingx.JXDatePicker();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tb_product = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        tf_search = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        btn_submit = new javax.swing.JButton();
+        btn_update = new javax.swing.JButton();
+        btn_delete = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Hello admin!");
+
+        jLabel2.setText("id_product");
+
+        jLabel3.setText("nama_product");
+
+        jLabel4.setText("stock");
+
+        jLabel5.setText("start_bid");
+
+        jLabel6.setText("start_date");
+
+        jLabel7.setText("end_date");
+
+        tb_product.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tb_product.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tb_productMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tb_product);
+
+        jLabel8.setText("Search");
+
+        jButton1.setText("by ID");
+
+        jButton2.setText("by Name");
+
+        btn_submit.setText("Submit");
+        btn_submit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_submitActionPerformed(evt);
+            }
+        });
+
+        btn_update.setText("Update");
+        btn_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_updateActionPerformed(evt);
+            }
+        });
+
+        btn_delete.setText("Delete");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(40, 40, 40)
+                        .addComponent(tf_idproduct))
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_submit)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(dp_enddate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(dp_startdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(tf_namaproduct)
+                                .addComponent(tf_stock)
+                                .addComponent(tf_startbid))
+                            .addComponent(btn_update)
+                            .addComponent(btn_delete))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tf_search)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel8))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(tf_idproduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(tf_search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(tf_namaproduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(tf_stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(tf_startbid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(dp_startdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(dp_enddate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_submit)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_update)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_delete))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_submitActionPerformed
+        // TODO add your handling code here:
+        try{
+            String id_product = tf_idproduct.getText();
+            String nama_product = tf_namaproduct.getText();
+            String stock = tf_stock.getText();
+            String start_bid = tf_startbid.getText();
+            Date start_date = dp_startdate.getDate();
+            Date end_date = dp_enddate.getDate();
+            
+            model.setId_product(id_product);
+            model.setName_product(nama_product);
+            model.setStock_product(stock);
+            model.setStart_bid(start_bid);
+            model.setStart_date(start_date);
+            model.setEnd_date(end_date);
+            
+            Boolean result = controller.createProduct(model);
+            if (result){
+                JOptionPane.showMessageDialog(null, "Berhasil Menambahkan Data!");
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Gagal Menambahkan Data!");
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_btn_submitActionPerformed
+
+    private void tb_productMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_productMouseClicked
+        // TODO add your handling code here:
+        try{
+            String id_product = helper.getValuesRows(tb_product, 0);
+            String nama_product = helper.getValuesRows(tb_product, 1);
+            String stock = helper.getValuesRows(tb_product, 2);
+            String start_bid = helper.getValuesRows(tb_product, 3);
+            String start_date = helper.getValuesRows(tb_product, 4);
+            String end_date = helper.getValuesRows(tb_product, 5);
+
+            btn_update.setEnabled(true);
+            btn_delete.setEnabled(true);
+
+            tf_idproduct.setText(id_product);
+            tf_namaproduct.setText(nama_product);
+            tf_stock.setText(stock);
+            tf_startbid.setText(start_bid);
+            dp_startdate.setDate(new Date(helper.parseStringToDatepickerFormat(start_date)));
+            dp_enddate.setDate(new Date(helper.parseStringToDatepickerFormat(end_date)));
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+    }
+        
+    }//GEN-LAST:event_tb_productMouseClicked
+
+    private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
+        // TODO add your handling code here:
+        try{
+            String id_product = tf_idproduct.getText();
+            String nama_product = tf_namaproduct.getText();
+            String stock = tf_stock.getText();
+            String start_bid = tf_startbid.getText();
+            Date start_date = dp_startdate.getDate();
+            Date end_date = dp_enddate.getDate();
+            
+            model.setId_product(id_product);
+            model.setName_product(nama_product);
+            model.setStock_product(stock);
+            model.setStart_bid(start_bid);
+            model.setStart_date(start_date);
+            model.setEnd_date(end_date);
+            
+            Boolean result = controller.updateProduct(model);
+            if (result){
+                JOptionPane.showMessageDialog(null, "Berhasil Menambahkan Data!");
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Gagal Menambahkan Data!");
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_btn_updateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +345,27 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_delete;
+    private javax.swing.JButton btn_submit;
+    private javax.swing.JButton btn_update;
+    private org.jdesktop.swingx.JXDatePicker dp_enddate;
+    private org.jdesktop.swingx.JXDatePicker dp_startdate;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tb_product;
+    private javax.swing.JTextField tf_idproduct;
+    private javax.swing.JTextField tf_namaproduct;
+    private javax.swing.JTextField tf_search;
+    private javax.swing.JTextField tf_startbid;
+    private javax.swing.JTextField tf_stock;
     // End of variables declaration//GEN-END:variables
 }

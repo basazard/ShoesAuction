@@ -17,12 +17,12 @@ public class MainModel {
     public String password;
     
     public String id_bid;
-    public int total_bid;
+    public String total_bid;
     
     public String id_product;
     public String name_product;
-    public int stock_product;
-    public int start_bid;
+    public String stock_product;
+    public String start_bid;
     public Date start_date;
     public Date end_date;
 
@@ -58,11 +58,11 @@ public class MainModel {
         this.id_bid = id_bid;
     }
 
-    public int getTotal_bid() {
+    public String getTotal_bid() {
         return total_bid;
     }
 
-    public void setTotal_bid(int total_bid) {
+    public void setTotal_bid(String total_bid) {
         this.total_bid = total_bid;
     }
 
@@ -82,19 +82,19 @@ public class MainModel {
         this.name_product = name_product;
     }
 
-    public int getStock_product() {
+    public String getStock_product() {
         return stock_product;
     }
 
-    public void setStock_product(int stock_product) {
+    public void setStock_product(String stock_product) {
         this.stock_product = stock_product;
     }
 
-    public int getStart_bid() {
+    public String getStart_bid() {
         return start_bid;
     }
 
-    public void setStart_bid(int start_bid) {
+    public void setStart_bid(String start_bid) {
         this.start_bid = start_bid;
     }
 
@@ -115,6 +115,5 @@ public class MainModel {
     }
 
     
-
     
 }

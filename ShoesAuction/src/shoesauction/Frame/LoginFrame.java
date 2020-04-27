@@ -6,11 +6,10 @@
 package shoesauction.Frame;
 
 import com.placeholder.PlaceHolder;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
-import shoesauction.Connection.DBConnection;
+import shoesauction.Controller.MainController;
+import shoesauction.Model.MainModel;
 
 /**
  *
@@ -18,21 +17,15 @@ import shoesauction.Connection.DBConnection;
  */
 public class LoginFrame extends javax.swing.JFrame {
 
-    Connection con;
-    Statement st;
+    MainModel model = new MainModel();
+    MainController controller = new MainController();
     ResultSet rs;
-    String sql, username;
     
     /**
      * Creates new form LoginFrame
      */
     public LoginFrame() {
         initComponents();
-        
-        DBConnection koneksi = new DBConnection();
-        koneksi.open();
-        con = koneksi.con;
-        st = koneksi.stm;
         
         PlaceHolder holder1 = new PlaceHolder(tf_username, "Input your Username");
         PlaceHolder holder2 = new PlaceHolder(tf_password, "Input your Password");
@@ -154,21 +147,33 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
         // TODO add your handling code here:
-        try{
-            sql = "SELECT * FROM pengguna WHERE username='"+tf_username.getText()+"' AND password='"+tf_password.getText()+"'";
-            rs = st.executeQuery(sql);
-            if(rs.next()){
-                if(tf_username.getText().equals(rs.getString("username")) && tf_password.getText().equals(rs.getString("password"))){
-                    JOptionPane.showMessageDialog(null, "berhasil login");
-                }
+        try {
+            String username = tf_username.getText();
+	    String password = tf_password.getText();
+
+            model.setUsername(username);
+	    model.setPassword(password);
+
+	    Boolean result = controller.login(model);
+            
+            if(tf_username.getText().equals("admin") && tf_password.getText().equals("123")){
+		DashboardAdmin da = new DashboardAdmin();
+                da.setVisible(true);
+                this.setVisible(false);
             }
-            else{
-                    JOptionPane.showMessageDialog(null, "username atau password salah");
-                }
+             else if (result) {
+                 DashboardUser du = new DashboardUser();
+                 du.setVisible(true);
+                 this.setVisible(false);        
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Username atau Password anda salah!");
+            }
+              
         }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
+        catch (Exception e){
+			System.err.println(e.getMessage());
+		}
     }//GEN-LAST:event_btn_loginActionPerformed
 
     /**

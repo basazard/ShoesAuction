@@ -6,6 +6,7 @@
 package shoesauction.Controller;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +32,53 @@ public class MainController extends BaseController {
         
         return this.preparedStatement(map, sql);
     }
+    
+    public Boolean login(MainModel model) throws ParseException, SQLException{
+        Map<Integer, Object> map = new HashMap<>();
+        map.put(1, model.getUsername());
+        map.put(2, model.getPassword());
+        
+        String sql = this.query.login;
+
+        
+        ResultSet rs = this.getWithParamater(map, sql);
+     
+        if (rs.next() == false) { 
+         return false;
+        }
+        return true;
+    }
+    
+    public boolean createProduct(MainModel model) throws ParseException{
+        String date = helper.parseDateToString(model.getStart_date());
+        String date2 = helper.parseDateToString(model.getEnd_date());
+        Map <Integer, Object> map = new HashMap<>();
+        map.put(1, model.getId_product());
+        map.put(2, model.getName_product());
+        map.put(3, model.getStock_product());
+        map.put(4, model.getStart_bid());
+        map.put(5, date);
+        map.put(6, date2);
+        String sql = this.query.createProduct;
+        
+        return this.preparedStatement(map, sql);
+    }
+    
+    public boolean updateProduct(MainModel model) throws ParseException {
+       String date = helper.parseDateToString(model.getStart_date());
+        String date2 = helper.parseDateToString(model.getEnd_date());
+        Map <Integer, Object> map = new HashMap<>();
+        map.put(1, model.getId_product());
+        map.put(2, model.getName_product());
+        map.put(3, model.getStock_product());
+        map.put(4, model.getStart_bid());
+        map.put(5, date);
+        map.put(6, date2);
+        String sql = this.query.updateProduct;
+        
+        return this.preparedStatement(map, sql);
+    }
+    
     
     public boolean createBid(MainModel model) throws ParseException{
         Map <Integer, Object> map = new HashMap<>();
@@ -63,8 +111,13 @@ public class MainController extends BaseController {
         return this.preparedStatement(map, sql);
     }
     
-    public ResultSet get(){
-        String sql = this.query.get;
+    public ResultSet getBid(){
+        String sql = this.query.getBid;
+        return this.get(sql);
+    }
+    
+    public ResultSet getProduct(){
+        String sql = this.query.getProduct;
         return this.get(sql);
     }
     
