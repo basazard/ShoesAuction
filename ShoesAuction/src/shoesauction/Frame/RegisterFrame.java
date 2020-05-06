@@ -5,7 +5,6 @@
  */
 package shoesauction.Frame;
 
-import com.placeholder.PlaceHolder;
 import javax.swing.JOptionPane;
 import shoesauction.Controller.MainController;
 import shoesauction.Model.MainModel;
@@ -23,9 +22,6 @@ public class RegisterFrame extends javax.swing.JFrame {
      */
     public RegisterFrame() {
         initComponents();
-        PlaceHolder holder1 = new PlaceHolder(tf_username, "Input your Username");
-        PlaceHolder holder2 = new PlaceHolder(tf_password, "Input your Password");
-        PlaceHolder holder3 = new PlaceHolder(tf_email, "Input your Email");
     }
 
     public void clear(){

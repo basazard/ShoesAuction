@@ -102,6 +102,14 @@ public class DashboardProduct extends javax.swing.JFrame {
 
     private void tb_productMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_productMouseClicked
         // TODO add your handling code here:
+        try{
+            DashboardDeal dd = new DashboardDeal();
+            
+            
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_tb_productMouseClicked
 
     /**

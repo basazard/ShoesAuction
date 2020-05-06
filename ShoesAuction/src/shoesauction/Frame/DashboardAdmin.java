@@ -5,13 +5,17 @@
  */
 package shoesauction.Frame;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import shoesauction.Connection.DBConnection;
 import shoesauction.Controller.MainController;
 import shoesauction.Helper.Helper;
 import shoesauction.Model.MainModel;
+import shoesauction.Query.MainQuery;
 
 /**
  *
@@ -19,10 +23,15 @@ import shoesauction.Model.MainModel;
  */
 public class DashboardAdmin extends javax.swing.JFrame {
 
+    Connection con;
+    Statement st;
+    String sql;
+    ResultSet rs;
+    String id;
+    
     MainModel model = new MainModel();
     MainController controller = new MainController();
-    ResultSet rs;
-    
+    MainQuery query = new MainQuery();
     Helper helper = new Helper();
     
     /**
@@ -30,8 +39,59 @@ public class DashboardAdmin extends javax.swing.JFrame {
      */
     public DashboardAdmin() {
         initComponents();
+        
+        DBConnection koneksi = new DBConnection();
+        koneksi.open();
+        con = koneksi.con;
+        st = koneksi.stm;
+        
         getAllData();
+        clear();
+        code();
+        
+        tf_idproduct.setEnabled(false);
     }
+    
+    private void clear(){
+        code();
+        tf_namaproduct.setText("");
+        tf_stock.setText("");
+        tf_startbid.setText("");
+        dp_startdate.setDate(null);
+        dp_enddate.setDate(null);
+        
+        btn_submit.setEnabled(true);
+    }
+    
+    private void code(){
+       try {
+            sql = this.query.createIDproduct;
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            if (rs.next()) {
+                String id_product = rs.getString("id_product").substring(2);
+                String kode = "" + (Integer.parseInt(id_product) + 1);
+                String nol = "";
+
+                if(kode.length()==1)
+                {nol = "000";}
+                else if(kode.length()==2)
+                {nol = "00";}
+                else if(kode.length()==3)
+                {nol = "0";}
+                else if(kode.length()==4)
+                {nol = "";}
+
+               tf_idproduct.setText("PR" + nol + kode);
+            } 
+            else {
+               tf_idproduct.setText("PR0001");
+            }
+           }
+       catch(Exception ex){
+           System.out.println(ex.getMessage());
+           }
+     }
     
     public void getAllData(){
         this.rs = controller.getProduct();
@@ -73,22 +133,23 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btn_submit = new javax.swing.JButton();
         btn_update = new javax.swing.JButton();
         btn_delete = new javax.swing.JButton();
+        btn_logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Hello admin!");
 
-        jLabel2.setText("id_product");
+        jLabel2.setText("Product ID");
 
-        jLabel3.setText("nama_product");
+        jLabel3.setText("Product Name");
 
-        jLabel4.setText("stock");
+        jLabel4.setText("Stock");
 
-        jLabel5.setText("start_bid");
+        jLabel5.setText("Start Bid");
 
-        jLabel6.setText("start_date");
+        jLabel6.setText("Start Date");
 
-        jLabel7.setText("end_date");
+        jLabel7.setText("End Date");
 
         tb_product.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -129,6 +190,18 @@ public class DashboardAdmin extends javax.swing.JFrame {
         });
 
         btn_delete.setText("Delete");
+        btn_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_deleteActionPerformed(evt);
+            }
+        });
+
+        btn_logout.setText("Logout");
+        btn_logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_logoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -136,33 +209,35 @@ public class DashboardAdmin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(40, 40, 40)
-                        .addComponent(tf_idproduct))
-                    .addComponent(jLabel1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_submit)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(dp_enddate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(dp_startdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(tf_namaproduct)
-                                .addComponent(tf_stock)
-                                .addComponent(tf_startbid))
-                            .addComponent(btn_update)
-                            .addComponent(btn_delete))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(40, 40, 40)
+                            .addComponent(tf_idproduct))
+                        .addComponent(jLabel1)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel7))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btn_submit)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(dp_enddate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dp_startdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(tf_namaproduct)
+                                    .addComponent(tf_stock)
+                                    .addComponent(tf_startbid))
+                                .addComponent(btn_update)
+                                .addComponent(btn_delete))))
+                    .addComponent(btn_logout))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -189,7 +264,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(tf_search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -210,12 +285,17 @@ public class DashboardAdmin extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(dp_enddate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_submit)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_update)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_delete))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_submit)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_update)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_delete))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btn_logout))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -247,6 +327,9 @@ public class DashboardAdmin extends javax.swing.JFrame {
             else {
                 JOptionPane.showMessageDialog(null, "Gagal Menambahkan Data!");
             }
+            clear();
+            getAllData();
+            code();
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -266,12 +349,13 @@ public class DashboardAdmin extends javax.swing.JFrame {
             btn_update.setEnabled(true);
             btn_delete.setEnabled(true);
 
-            tf_idproduct.setText(id_product);
+            this.id = id_product;
             tf_namaproduct.setText(nama_product);
             tf_stock.setText(stock);
             tf_startbid.setText(start_bid);
             dp_startdate.setDate(new Date(helper.parseStringToDatepickerFormat(start_date)));
             dp_enddate.setDate(new Date(helper.parseStringToDatepickerFormat(end_date)));
+            
         }
         catch(Exception e){
             System.out.println(e.getMessage());
@@ -296,18 +380,47 @@ public class DashboardAdmin extends javax.swing.JFrame {
             model.setStart_date(start_date);
             model.setEnd_date(end_date);
             
-            Boolean result = controller.updateProduct(model);
+            Boolean result = controller.updateProduct(id, model);
             if (result){
                 JOptionPane.showMessageDialog(null, "Berhasil Menambahkan Data!");
             }
             else {
                 JOptionPane.showMessageDialog(null, "Gagal Menambahkan Data!");
             }
+            clear();
+            getAllData();
         }
         catch(Exception e){
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_btn_updateActionPerformed
+
+    private void btn_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logoutActionPerformed
+        // TODO add your handling code here:
+        LoginFrame lf = new LoginFrame();
+        lf.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_logoutActionPerformed
+
+    private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
+        // TODO add your handling code here:
+        try{
+            Boolean result = controller.deleteProduct(id);
+            
+            if(result){
+                JOptionPane.showMessageDialog(null, "Berhasil Menghapus Data");
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Gagal Menghapus Data");
+            }
+            clear();
+            getAllData();
+                    
+        }
+        catch (Exception ex){
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_btn_deleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -346,6 +459,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_delete;
+    private javax.swing.JButton btn_logout;
     private javax.swing.JButton btn_submit;
     private javax.swing.JButton btn_update;
     private org.jdesktop.swingx.JXDatePicker dp_enddate;

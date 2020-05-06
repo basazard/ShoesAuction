@@ -25,4 +25,9 @@ public class MainQuery {
     
     public String showById = "SELECT * FORM bid WHERE id = ?";
     public String showByName = "SELECT * FROM bid WHERE name LIKE ?";    
+    
+    public String createIDproduct = "SELECT * FROM product ORDER by id_product DESC";
+    public String createIDbid = "SELECT * FROM bid ORDER by id_bid DESC";
+    
+    public String cb_product = "select id_product from product order by id_product asc"; 
 }

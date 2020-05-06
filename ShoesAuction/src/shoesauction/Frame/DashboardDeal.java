@@ -14,6 +14,7 @@ import shoesauction.Connection.DBConnection;
 import shoesauction.Controller.MainController;
 import shoesauction.Helper.Helper;
 import shoesauction.Model.MainModel;
+import shoesauction.Query.MainQuery;
 /**
  *
  * @author basazard
@@ -27,11 +28,12 @@ public class DashboardDeal extends javax.swing.JFrame {
  
     MainModel model = new MainModel();
     MainController controller = new MainController();
-    
+    MainQuery query = new MainQuery();
     Helper helper = new Helper();
     
     /**
      * Creates new form DashboardDeal
+     * 
      */
     public DashboardDeal() {
         initComponents();
@@ -44,33 +46,15 @@ public class DashboardDeal extends javax.swing.JFrame {
         getAllData();
         clear();
         code();
-        tf_idbid.setEnabled(false);
-        tampil_combo();
-    }
-    
-    public void tampil_combo(){
-        try {
-        st = con.createStatement();
-        sql = "select id_product from product order by id_product asc";      // disini saya menampilkan NIM, anda dapat menampilkan
-        rs = st.executeQuery(sql);                                // yang anda ingin kan
+        cb_product();
         
-        while(rs.next()){
-            Object[] ob = new Object[3];
-            ob[0] = rs.getString(1);
-            
-            cb_idproduct.addItem(ob[0]);                                      // fungsi ini bertugas menampung isi dari database
-        }
-        rs.close(); st.close();
-         
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        tf_idbid.setEnabled(false);
     }
     
     private void code(){
        try {
-            String sql = "SELECT * FROM bid ORDER by id_bid DESC";
-            st =con.createStatement();
+            String sql = this.query.createIDbid;
+            st = con.createStatement();
             rs = st.executeQuery(sql);
             if (rs.next()) {
                 String id_bid = rs.getString("id_bid").substring(1);
@@ -95,6 +79,26 @@ public class DashboardDeal extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, e);
            }
      }
+    
+    public void cb_product(){
+        try {
+        
+            sql = this.query.cb_product;
+            st = con.createStatement();
+            rs = st.executeQuery(sql);                                
+        
+            while(rs.next()){
+            Object[] ob = new Object[3];
+            ob[0] = rs.getString(1);
+            
+            cb_idproduct.addItem(ob[0]);        
+        }
+        rs.close(); st.close();
+         
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
     
     private void clear(){
         code();
@@ -151,7 +155,7 @@ public class DashboardDeal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         tf_search = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        label_username = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -192,7 +196,7 @@ public class DashboardDeal extends javax.swing.JFrame {
 
         jLabel2.setText("Hello!");
 
-        jLabel3.setText("-");
+        label_username.setText("-");
 
         jLabel4.setText("It's your turn to bid");
 
@@ -264,7 +268,7 @@ public class DashboardDeal extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel3)
+                        .addComponent(label_username)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -275,7 +279,7 @@ public class DashboardDeal extends javax.swing.JFrame {
                         .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3))
+                            .addComponent(label_username))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
@@ -342,6 +346,7 @@ public class DashboardDeal extends javax.swing.JFrame {
             }
             clear();
             getAllData();
+            code();
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -395,7 +400,6 @@ public class DashboardDeal extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -403,6 +407,7 @@ public class DashboardDeal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel label_username;
     private javax.swing.JTable tb_bid;
     private javax.swing.JTextField tf_idbid;
     private javax.swing.JTextField tf_search;

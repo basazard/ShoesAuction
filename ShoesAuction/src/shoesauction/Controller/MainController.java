@@ -33,25 +33,20 @@ public class MainController extends BaseController {
         return this.preparedStatement(map, sql);
     }
     
-    public Boolean login(MainModel model) throws ParseException, SQLException{
+    public ResultSet login(MainModel model) throws ParseException, SQLException{
         Map<Integer, Object> map = new HashMap<>();
         map.put(1, model.getUsername());
         map.put(2, model.getPassword());
         
         String sql = this.query.login;
-
         
-        ResultSet rs = this.getWithParamater(map, sql);
-     
-        if (rs.next() == false) { 
-         return false;
-        }
-        return true;
+        return this.getWithParamater(map, sql);
     }
     
     public boolean createProduct(MainModel model) throws ParseException{
         String date = helper.parseDateToString(model.getStart_date());
         String date2 = helper.parseDateToString(model.getEnd_date());
+        
         Map <Integer, Object> map = new HashMap<>();
         map.put(1, model.getId_product());
         map.put(2, model.getName_product());
@@ -64,9 +59,10 @@ public class MainController extends BaseController {
         return this.preparedStatement(map, sql);
     }
     
-    public boolean updateProduct(MainModel model) throws ParseException {
-       String date = helper.parseDateToString(model.getStart_date());
+    public boolean updateProduct(String id, MainModel model) throws ParseException {
+        String date = helper.parseDateToString(model.getStart_date());
         String date2 = helper.parseDateToString(model.getEnd_date());
+        
         Map <Integer, Object> map = new HashMap<>();
         map.put(1, model.getId_product());
         map.put(2, model.getName_product());
@@ -74,7 +70,17 @@ public class MainController extends BaseController {
         map.put(4, model.getStart_bid());
         map.put(5, date);
         map.put(6, date2);
+        
         String sql = this.query.updateProduct;
+        
+        return this.preparedStatement(map, sql);
+    }
+    
+    public boolean deleteProduct(String id) throws ParseException{
+        Map<Integer, Object> map = new HashMap<>();
+        map.put(1, id);
+        
+        String sql = this.query.deleteProduct;
         
         return this.preparedStatement(map, sql);
     }

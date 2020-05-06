@@ -17,12 +17,16 @@ public class DashboardUser extends javax.swing.JFrame {
     MainController controller = new MainController();
     /**
      * Creates new form DashboardUser
+     * @param name
      */
-    public DashboardUser() {
+    public DashboardUser(String name) {
         initComponents();
-        
+        label_username.setText(name);
     }
     
+    DashboardUser(){
+        throw new UnsupportedOperationException("No supported yet.");
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,7 +39,7 @@ public class DashboardUser extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        lbl_username = new javax.swing.JLabel();
+        label_username = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btn_product = new javax.swing.JButton();
         btn_deal = new javax.swing.JButton();
@@ -49,7 +53,7 @@ public class DashboardUser extends javax.swing.JFrame {
 
         jLabel2.setText("We're so exited to see you again!");
 
-        lbl_username.setText("-");
+        label_username.setText("-");
 
         jLabel4.setText("Whats your looking for?");
 
@@ -93,7 +97,7 @@ public class DashboardUser extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbl_username))
+                        .addComponent(label_username))
                     .addComponent(jLabel2)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
@@ -112,7 +116,7 @@ public class DashboardUser extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(lbl_username))
+                    .addComponent(label_username))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addGap(36, 36, 36)
@@ -204,6 +208,6 @@ public class DashboardUser extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel lbl_username;
+    private javax.swing.JLabel label_username;
     // End of variables declaration//GEN-END:variables
 }

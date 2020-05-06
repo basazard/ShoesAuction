@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2020 at 04:28 PM
+-- Generation Time: May 06, 2020 at 11:32 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.4
 
@@ -34,13 +34,6 @@ CREATE TABLE `bid` (
   `username` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `bid`
---
-
-INSERT INTO `bid` (`id_bid`, `id_product`, `total_bid`, `username`) VALUES
-('B0001', 'PR0001', 90000000, 'admin');
-
 -- --------------------------------------------------------
 
 --
@@ -50,16 +43,18 @@ INSERT INTO `bid` (`id_bid`, `id_product`, `total_bid`, `username`) VALUES
 CREATE TABLE `pengguna` (
   `email` varchar(30) DEFAULT NULL,
   `username` varchar(30) NOT NULL,
-  `password` varchar(30) DEFAULT NULL
+  `password` varchar(30) DEFAULT NULL,
+  `type` varchar(1) NOT NULL DEFAULT 'U'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pengguna`
 --
 
-INSERT INTO `pengguna` (`email`, `username`, `password`) VALUES
-('admin@admin.com', 'admin', 'admin'),
-('bagas123f@gmail.com', 'bagas', 'bagas');
+INSERT INTO `pengguna` (`email`, `username`, `password`, `type`) VALUES
+('admin@admin.com', 'admin', 'admin', 'A'),
+('bagas123f@gmail.com', 'bagas', 'bagas', 'U'),
+('nanda@gmail.com', 'nanda', 'nanda', 'U');
 
 -- --------------------------------------------------------
 
@@ -81,9 +76,24 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id_product`, `nama_product`, `stock`, `start_bid`, `start_date`, `end_date`) VALUES
-('PR0001', 'Gazelle 98 Vintage Hi Green', 1, 438000, '2020-04-25', '2020-04-28'),
-('PR0002', 'Servare Vitas', 1, 2000000, '2020-04-01', '2020-04-20'),
-('PR0003', 'Compass x PMP Darahku Biru', 1, 3000000, '2020-04-15', '2020-04-22');
+('PR0001', 'Servare Vitas', 1, 2000000, '2020-04-30', '2020-05-05'),
+('PR0002', 'Compass x PMP Darahku Biru', 1, 3000000, '2020-04-30', '2020-05-02'),
+('PR0003', 'Compass x PMP Darahku Biru', 1, 155, '2020-04-30', '2020-05-02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaksi`
+--
+
+CREATE TABLE `transaksi` (
+  `id_transaksi` varchar(10) NOT NULL,
+  `id_bid` varchar(10) DEFAULT NULL,
+  `id_product` varchar(10) DEFAULT NULL,
+  `username` varchar(10) DEFAULT NULL,
+  `jumlah` int(11) DEFAULT NULL,
+  `end_bid` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
@@ -110,6 +120,15 @@ ALTER TABLE `product`
   ADD PRIMARY KEY (`id_product`);
 
 --
+-- Indexes for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD PRIMARY KEY (`id_transaksi`),
+  ADD KEY `fk_bid` (`id_bid`),
+  ADD KEY `fk_product2` (`id_product`),
+  ADD KEY `fk_username2` (`username`);
+
+--
 -- Constraints for dumped tables
 --
 
@@ -119,6 +138,14 @@ ALTER TABLE `product`
 ALTER TABLE `bid`
   ADD CONSTRAINT `fk_product` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
   ADD CONSTRAINT `fk_username` FOREIGN KEY (`username`) REFERENCES `pengguna` (`username`);
+
+--
+-- Constraints for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD CONSTRAINT `fk_bid` FOREIGN KEY (`id_bid`) REFERENCES `bid` (`id_bid`),
+  ADD CONSTRAINT `fk_product2` FOREIGN KEY (`id_product`) REFERENCES `product` (`id_product`),
+  ADD CONSTRAINT `fk_username2` FOREIGN KEY (`username`) REFERENCES `pengguna` (`username`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

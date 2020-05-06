@@ -5,7 +5,6 @@
  */
 package shoesauction.Frame;
 
-import com.placeholder.PlaceHolder;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import shoesauction.Controller.MainController;
@@ -27,8 +26,7 @@ public class LoginFrame extends javax.swing.JFrame {
     public LoginFrame() {
         initComponents();
         
-        PlaceHolder holder1 = new PlaceHolder(tf_username, "Input your Username");
-        PlaceHolder holder2 = new PlaceHolder(tf_password, "Input your Password");
+        
     }
 
     /**
@@ -42,13 +40,13 @@ public class LoginFrame extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         tf_username = new javax.swing.JTextField();
-        tf_password = new javax.swing.JTextField();
         btn_login = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         lb_register = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        tf_password = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,9 +122,9 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addComponent(tf_username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
-                .addGap(2, 2, 2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tf_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(13, 13, 13)
                 .addComponent(btn_login)
                 .addGap(25, 25, 25)
                 .addComponent(jLabel6)
@@ -149,23 +147,30 @@ public class LoginFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             String username = tf_username.getText();
-	    String password = tf_password.getText();
+	    String password = new String (tf_password.getPassword());
 
             model.setUsername(username);
 	    model.setPassword(password);
 
-	    Boolean result = controller.login(model);
+	    ResultSet login = controller.login(model);
             
-            if(tf_username.getText().equals("admin") && tf_password.getText().equals("123")){
-		DashboardAdmin da = new DashboardAdmin();
-                da.setVisible(true);
-                this.setVisible(false);
+            if(login.next()){
+		String name = login.getString("username");
+                String type = login.getString("type");
+                String message = "";
+                
+                if (type.equals("A")){
+                    DashboardAdmin da = new DashboardAdmin();
+                    da.setVisible(true);
+                    this.setVisible(false);
+                }
+                else if (type.equals("U")){
+                    DashboardUser du = new DashboardUser(name);
+                    du.setVisible(true);
+                    this.setVisible(false);
+                }
             }
-             else if (result) {
-                 DashboardUser du = new DashboardUser();
-                 du.setVisible(true);
-                 this.setVisible(false);        
-            }
+             
             else {
                 JOptionPane.showMessageDialog(null, "Username atau Password anda salah!");
             }
@@ -219,7 +224,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lb_register;
-    private javax.swing.JTextField tf_password;
+    private javax.swing.JPasswordField tf_password;
     private javax.swing.JTextField tf_username;
     // End of variables declaration//GEN-END:variables
 }

@@ -73,9 +73,9 @@
               <Component id="tf_username" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="tf_password" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
               <Component id="btn_login" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
@@ -96,8 +96,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tf_username">
-    </Component>
-    <Component class="javax.swing.JTextField" name="tf_password">
     </Component>
     <Component class="javax.swing.JButton" name="btn_login">
       <Properties>
@@ -143,6 +141,8 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Password"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="tf_password">
     </Component>
   </SubComponents>
 </Form>
