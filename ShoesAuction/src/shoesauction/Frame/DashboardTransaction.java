@@ -5,17 +5,39 @@
  */
 package shoesauction.Frame;
 
+import java.sql.ResultSet;
+import net.proteanit.sql.DbUtils;
+import shoesauction.Controller.MainController;
+import shoesauction.Helper.Helper;
+import shoesauction.Model.MainModel;
+
 /**
  *
  * @author basazard
  */
 public class DashboardTransaction extends javax.swing.JFrame {
 
+    String id;
+    ResultSet rs;
+    MainController controller = new MainController();
+    Helper helper = new Helper();
+    MainModel model = new MainModel();
+    
     /**
      * Creates new form DashboardTransaction
      */
     public DashboardTransaction() {
         initComponents();
+        getAllData();
+    }
+    
+    public void getAllData(){
+        this.rs = controller.getTransaction();
+        loadTable(this.rs);
+    }
+    
+    public void loadTable(ResultSet rs){
+        tb_transaction.setModel(DbUtils.resultSetToTableModel(rs));
     }
 
     /**
@@ -27,21 +49,107 @@ public class DashboardTransaction extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tb_transaction = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        btn_back = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        tb_transaction.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tb_transaction.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tb_transactionMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tb_transaction);
+
+        jLabel1.setText("Choose your Transaction");
+
+        btn_back.setText("Back");
+        btn_back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_backActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_back)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(207, 207, 207)
+                        .addComponent(jLabel6))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(btn_back)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
+        // TODO add your handling code here:
+        try{
+            
+            DashboardUser du = new DashboardUser(id);
+            du.setVisible(true);
+            this.setVisible(false);
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_btn_backActionPerformed
+
+    private void tb_transactionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_transactionMouseClicked
+        // TODO add your handling code here:
+        try{
+            String id_transaction = helper.getValuesRows(tb_transaction, 0);
+            String id_bid = helper.getValuesRows(tb_transaction, 1);
+            String id_product = helper.getValuesRows(tb_transaction, 2);
+            String username = helper.getValuesRows(tb_transaction, 3);
+            String total = helper.getValuesRows(tb_transaction, 4);
+            String end_bid = helper.getValuesRows(tb_transaction, 5);
+            
+            
+            Payment py = new Payment(id_transaction);
+            py.setVisible(true);
+            this.setVisible(false);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_tb_transactionMouseClicked
 
     /**
      * @param args the command line arguments
@@ -79,5 +187,10 @@ public class DashboardTransaction extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_back;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tb_transaction;
     // End of variables declaration//GEN-END:variables
 }

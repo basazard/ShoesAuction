@@ -6,10 +6,12 @@
 package shoesauction.Frame;
 
 import java.sql.ResultSet;
+import java.sql.Statement;
 import net.proteanit.sql.DbUtils;
 import shoesauction.Controller.MainController;
 import shoesauction.Helper.Helper;
 import shoesauction.Model.MainModel;
+import shoesauction.Query.MainQuery;
 
 /**
  *
@@ -19,8 +21,9 @@ public class DashboardProduct extends javax.swing.JFrame {
     MainController controller = new MainController();
     MainModel model = new MainModel();
     ResultSet rs;
-    
+    String name;
     Helper helper = new Helper();
+    MainQuery query = new MainQuery();
     
     /**
      * Creates new form DashboardProduct
@@ -51,6 +54,7 @@ public class DashboardProduct extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tb_product = new javax.swing.JTable();
+        btn_back = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,6 +78,13 @@ public class DashboardProduct extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tb_product);
 
+        btn_back.setText("Back");
+        btn_back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_backActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -81,10 +92,12 @@ public class DashboardProduct extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 460, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(btn_back))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -93,8 +106,10 @@ public class DashboardProduct extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_back)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -103,14 +118,30 @@ public class DashboardProduct extends javax.swing.JFrame {
     private void tb_productMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_productMouseClicked
         // TODO add your handling code here:
         try{
-            DashboardDeal dd = new DashboardDeal();
+            String id = helper.getValuesRows(tb_product, 0);
+            String bid = helper.getValuesRows(tb_product, 3);
             
-            
+                    
+            DashboardDeal dd = new DashboardDeal(id, bid);
+            dd.setVisible(true);
+            this.setVisible(false);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_tb_productMouseClicked
+
+    private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
+        // TODO add your handling code here:
+        try{
+            DashboardUser du = new DashboardUser(name);
+            du.setVisible(true);
+            this.setVisible(false);
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_btn_backActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,6 +179,7 @@ public class DashboardProduct extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_back;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tb_product;

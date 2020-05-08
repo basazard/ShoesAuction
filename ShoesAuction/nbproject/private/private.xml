@@ -3,10 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/basazard/Documents/NetBeansProjects/ShoesAuction/src/shoesauction/Query/MainQuery.java</file>
-            <file>file:/C:/Users/basazard/Documents/NetBeansProjects/ShoesAuction/src/shoesauction/Controller/MainController.java</file>
-            <file>file:/C:/Users/basazard/Documents/NetBeansProjects/ShoesAuction/src/shoesauction/Frame/RegisterFrame.java</file>
-            <file>file:/C:/Users/basazard/Documents/NetBeansProjects/ShoesAuction/src/shoesauction/Frame/DashboardAdmin.java</file>
+            <file>file:/C:/Users/basazard/Documents/NetBeansProjects/ShoesAuction/src/shoesauction/Model/MainModel.java</file>
+            <file>file:/C:/Users/basazard/Documents/NetBeansProjects/ShoesAuction/src/shoesauction/Frame/Payment.java</file>
+            <file>file:/C:/Users/basazard/Documents/NetBeansProjects/ShoesAuction/src/shoesauction/Frame/DashboardTransaction.java</file>
         </group>
     </open-files>
 </project-private>

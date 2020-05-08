@@ -43,6 +43,44 @@ public class MainController extends BaseController {
         return this.getWithParamater(map, sql);
     }
     
+    public boolean createTransaction (MainModel model) throws ParseException{
+        Map <Integer, Object> map = new HashMap<>();
+        map.put(1, model.getId_transaction());
+        map.put(2, model.getId_bid());
+        map.put(3, model.getId_product());
+        map.put(4, model.getUsername());
+        map.put(5, model.getTotal());
+        map.put(6, model.getTotal_bid());
+        String sql = this.query.createTransaction;
+        
+        return this.preparedStatement(map, sql);
+    }
+    
+    public boolean updateTransaction(String id, MainModel model) throws ParseException {
+        Map <Integer, Object> map = new HashMap<>();
+        map.put(1, model.getId_transaction());
+        map.put(2, model.getId_bid());
+        map.put(3, model.getId_product());
+        map.put(4, model.getUsername());
+        map.put(5, model.getTotal());
+        map.put(6, model.getTotal_bid());
+        map.put(7, id);
+        
+        String sql = this.query.updateTransaction;
+        
+        return this.preparedStatement(map, sql);
+    }
+    
+    public boolean deleteTransaction(String id) throws ParseException{
+        Map<Integer, Object> map = new HashMap<>();
+        map.put(1, id);
+        
+        String sql = this.query.deleteTransaction;
+        
+        return this.preparedStatement(map, sql);
+    }
+    
+    
     public boolean createProduct(MainModel model) throws ParseException{
         String date = helper.parseDateToString(model.getStart_date());
         String date2 = helper.parseDateToString(model.getEnd_date());
@@ -64,12 +102,12 @@ public class MainController extends BaseController {
         String date2 = helper.parseDateToString(model.getEnd_date());
         
         Map <Integer, Object> map = new HashMap<>();
-        map.put(1, model.getId_product());
-        map.put(2, model.getName_product());
-        map.put(3, model.getStock_product());
-        map.put(4, model.getStart_bid());
-        map.put(5, date);
-        map.put(6, date2);
+        map.put(1, model.getName_product());
+        map.put(2, model.getStock_product());
+        map.put(3, model.getStart_bid());
+        map.put(4, date);
+        map.put(5, date2);
+        map.put(6, id);
         
         String sql = this.query.updateProduct;
         
@@ -124,6 +162,11 @@ public class MainController extends BaseController {
     
     public ResultSet getProduct(){
         String sql = this.query.getProduct;
+        return this.get(sql);
+    }
+    
+    public ResultSet getTransaction(){
+        String sql = this.query.getTransaction;
         return this.get(sql);
     }
     

@@ -19,6 +19,9 @@ public class MainModel {
     public String id_bid;
     public String total_bid;
     
+    public String id_transaction;
+    public String total;
+    
     public String id_product;
     public String name_product;
     public String stock_product;
@@ -114,6 +117,21 @@ public class MainModel {
         this.end_date = end_date;
     }
 
+    public String getId_transaction() {
+        return id_transaction;
+    }
+
+    public void setId_transaction(String id_transaction) {
+        this.id_transaction = id_transaction;
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
     
     
 }

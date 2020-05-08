@@ -25,7 +25,9 @@ public class DashboardDeal extends javax.swing.JFrame {
     Statement st;
     String sql;
     ResultSet rs;
+    String name;
  
+    
     MainModel model = new MainModel();
     MainController controller = new MainController();
     MainQuery query = new MainQuery();
@@ -33,9 +35,10 @@ public class DashboardDeal extends javax.swing.JFrame {
     
     /**
      * Creates new form DashboardDeal
+     * @param id
      * 
      */
-    public DashboardDeal() {
+    public DashboardDeal(String id, String bid) {
         initComponents();
         
         DBConnection koneksi = new DBConnection();
@@ -47,8 +50,18 @@ public class DashboardDeal extends javax.swing.JFrame {
         clear();
         code();
         cb_product();
+        cb_username();
         
         tf_idbid.setEnabled(false);
+        
+        cb_idproduct.setSelectedItem(id);
+        tf_startbid.setText(bid);
+        tf_startbid.setEnabled(false);
+        cb_idproduct.setEnabled(false);
+    }
+
+    private DashboardDeal() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     private void code(){
@@ -100,12 +113,33 @@ public class DashboardDeal extends javax.swing.JFrame {
         }
     }
     
+    public void cb_username(){
+        try {
+        
+            sql = this.query.getUsername;
+            st = con.createStatement();
+            rs = st.executeQuery(sql);                                
+        
+            while(rs.next()){
+            Object[] ob = new Object[3];
+            ob[0] = rs.getString(1);
+            
+            cb_username.addItem(ob[0]);        
+        }
+        rs.close(); st.close();
+         
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
     private void clear(){
         code();
         tf_idbid.setText("");
         tf_totalbid.setText("");
-        tf_username.setText("");
+        cb_idproduct.setEnabled(true);
         cb_idproduct.setSelectedIndex(0);
+        cb_username.setSelectedIndex(0);
         
         btn_submit.setEnabled(true);
         
@@ -155,7 +189,6 @@ public class DashboardDeal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         tf_search = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        label_username = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -166,7 +199,10 @@ public class DashboardDeal extends javax.swing.JFrame {
         tf_totalbid = new javax.swing.JTextField();
         btn_submit = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        tf_username = new javax.swing.JTextField();
+        btn_back = new javax.swing.JButton();
+        tf_startbid = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        cb_username = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -196,17 +232,15 @@ public class DashboardDeal extends javax.swing.JFrame {
 
         jLabel2.setText("Hello!");
 
-        label_username.setText("-");
-
         jLabel4.setText("It's your turn to bid");
 
         jLabel6.setText("ID Bid");
 
         jLabel7.setText("ID Product");
 
-        jLabel8.setText("Total Bid");
+        jLabel8.setText("Your Bid");
 
-        cb_idproduct.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-pilih-" }));
+        cb_idproduct.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-Choose-" }));
         cb_idproduct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cb_idproductActionPerformed(evt);
@@ -222,6 +256,17 @@ public class DashboardDeal extends javax.swing.JFrame {
 
         jLabel9.setText("Username");
 
+        btn_back.setText("Back");
+        btn_back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_backActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Start Bid");
+
+        cb_username.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-Choose-" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -230,26 +275,29 @@ public class DashboardDeal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
+                            .addComponent(btn_back)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(46, 46, 46)
-                                .addComponent(tf_idbid, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel3))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btn_submit)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(cb_idproduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(tf_totalbid))))
-                            .addComponent(jLabel8)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(18, 18, 18)
-                                .addComponent(tf_username)))
+                                    .addComponent(tf_startbid, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(tf_totalbid)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(btn_submit)
+                                                .addComponent(cb_idproduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGap(0, 47, Short.MAX_VALUE)))
+                                    .addComponent(tf_idbid, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cb_username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -267,8 +315,6 @@ public class DashboardDeal extends javax.swing.JFrame {
                                 .addContainerGap())))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(label_username)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -277,9 +323,7 @@ public class DashboardDeal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(label_username))
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
@@ -306,14 +350,19 @@ public class DashboardDeal extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(tf_username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cb_username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(tf_startbid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(tf_totalbid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
+                            .addComponent(tf_totalbid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addGap(18, 18, 18)
                         .addComponent(btn_submit)
-                        .addGap(86, 86, 86)))
+                        .addGap(27, 27, 27)
+                        .addComponent(btn_back)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -330,7 +379,7 @@ public class DashboardDeal extends javax.swing.JFrame {
             String id_bid = tf_idbid.getText();
             String id_product = cb_idproduct.getSelectedItem().toString();
             String total_bid = tf_totalbid.getText();
-            String username = tf_username.getText();
+            String username = cb_username.getSelectedItem().toString();
             
             model.setId_bid(id_bid);
             model.setId_product(id_product);
@@ -357,6 +406,18 @@ public class DashboardDeal extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_cb_idproductActionPerformed
+
+    private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
+        // TODO add your handling code here:
+        try{
+            DashboardUser du = new DashboardUser(name);
+            du.setVisible(true);
+            this.setVisible(false);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_btn_backActionPerformed
 
     /**
      * @param args the command line arguments
@@ -394,12 +455,15 @@ public class DashboardDeal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_back;
     private javax.swing.JButton btn_submit;
     private javax.swing.JComboBox cb_idproduct;
+    private javax.swing.JComboBox cb_username;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -407,11 +471,10 @@ public class DashboardDeal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel label_username;
     private javax.swing.JTable tb_bid;
     private javax.swing.JTextField tf_idbid;
     private javax.swing.JTextField tf_search;
+    private javax.swing.JTextField tf_startbid;
     private javax.swing.JTextField tf_totalbid;
-    private javax.swing.JTextField tf_username;
     // End of variables declaration//GEN-END:variables
 }

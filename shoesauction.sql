@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2020 at 11:32 AM
+-- Generation Time: May 08, 2020 at 10:27 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.4
 
@@ -33,6 +33,16 @@ CREATE TABLE `bid` (
   `total_bid` bigint(20) DEFAULT NULL,
   `username` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `bid`
+--
+
+INSERT INTO `bid` (`id_bid`, `id_product`, `total_bid`, `username`) VALUES
+('B0001', 'PR0001', 3500000, 'bagas'),
+('B0002', 'PR0001', 4000000, 'bagas'),
+('B0003', 'PR0001', 4500000, 'bagas'),
+('B0004', 'PR0001', 4500000, 'bagas');
 
 -- --------------------------------------------------------
 
@@ -78,7 +88,8 @@ CREATE TABLE `product` (
 INSERT INTO `product` (`id_product`, `nama_product`, `stock`, `start_bid`, `start_date`, `end_date`) VALUES
 ('PR0001', 'Servare Vitas', 1, 2000000, '2020-04-30', '2020-05-05'),
 ('PR0002', 'Compass x PMP Darahku Biru', 1, 3000000, '2020-04-30', '2020-05-02'),
-('PR0003', 'Compass x PMP Darahku Biru', 1, 155, '2020-04-30', '2020-05-02');
+('PR0003', 'Compass x PMP Darahku Biru', 0, 150, '2020-04-30', '2020-05-02'),
+('PR0004', 'AHHA GENG', 1, 2000, '2020-05-07', '2020-05-07');
 
 -- --------------------------------------------------------
 
